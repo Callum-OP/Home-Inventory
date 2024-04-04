@@ -1,0 +1,33 @@
+<div class="container" style="margin-top: 70px; margin-bottom: 40px;">
+  <div class="row">
+    <div class="col-sm-12" style = "width: 50rem; margin: auto">
+      <div *ngFor = "let property of property_list | async">
+        <h3>Edit {{property.property_name}}</h3>
+        <form [formGroup] = "propertyForm" (ngSubmit)="onSubmit()">
+          <div>
+            <label for="property_name">Property Name</label><br>
+            <input type="text" name="property_name" id="property_name" placeholder="Name of the property" ngDefaultControl [(ngModel)] = property.property_name
+              class="form-control" formControlName="property_name"
+              [ngClass]="{ 'error' : isInvalid('property_name') }">
+          </div><br>
+          <div class="form-group">
+            <label for="property_notes">Property Notes</label><br>
+            <textarea name="property_notes" id="property_notes"  rows="3" placeholder="Description of what the property is about" ngDefaultControl [(ngModel)] = property.property_notes
+              class="form-control" formControlName="property_notes">
+            </textarea>
+          </div><br>
+          <div class="form-group">
+            <label for="thumbnail">Image (Optional)</label><br>
+            <input type="text" name="thumbnail" id="thumbnail"
+              class="form-control" formControlName="thumbnail" placeholder="Optional url of the cover of the property" ngDefaultControl [(ngModel)] = property.thumbnail> 
+          </div>
+          <span *ngIf="isIncomplete()">
+            You must complete title and publish date fields
+          </span><br>
+          <button type="submit" *ngIf="!isIncomplete()"
+            class="btn btn-success">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

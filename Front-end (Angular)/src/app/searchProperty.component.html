@@ -1,0 +1,37 @@
+<div class="container" style="margin-top: 70px; margin-bottom: 40px;">
+  <div class="row">
+    <div class="col-sm-12" style = "width: 50rem; margin: auto">
+      <h3>Properties</h3>
+      <p>View your search results below</p>
+      <button class="btn btn-success" onclick = "window.location.href='http://localhost:4200/newproperty';">
+        Add New Property
+        </button><br><br>
+
+      <div *ngFor = "let property of property_list | async">
+        <div class="card border-success border-2 bg-basic mb-3 flex-row flex-wrap" style = "width: 47rem; margin: auto; cursor: pointer" [routerLink] = "['/properties', property._id, 'items']">
+          <div class="card-header">
+            <img class="rounded mx-auto d-block" src="assets/ExampleHouse.png" alt="thumbnail image of property" width="150" height="150"/>
+          </div>
+          <div class="card-block" style= "padding: 10px;">
+            <h5 class= "card-title"> {{ property.property_name }} </h5>
+            <p class = "card-text"> {{ property.property_notes }} </p>
+          </div>
+        </div>
+        <div style="margin-left: 39rem;">
+          <button (click) = "onEdit(property._id)" style="margin-right: 10px;" class="btn btn-success">Edit</button>
+          <button (click) = "onDelete(property._id)" class="btn btn-success">Delete</button>
+          <br><br>
+        </div>
+      </div>
+      <div class = "text-center">
+        <button class="btn btn-success" style="margin-right: 5rem;" (click) = "previousPage(1)">
+          <
+        </button>
+        Page | {{ page }}
+        <button class="btn btn-success" style="margin-left: 5rem;" (click) = "nextPage(1)">
+          >
+        </button><br><br>
+      </div><br>
+    </div>
+  </div>
+</div>

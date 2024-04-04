@@ -1,0 +1,65 @@
+<div class="container" style="margin-top: 70px; margin-bottom: 40px;">
+  <div class="row">
+    <div class="col-sm-12" style = "width: 50rem; margin: auto">
+      <div>
+        <h3>Edit a item</h3>
+        <form [formGroup] = "itemForm" (ngSubmit)="onSubmit()">
+          <div>
+            <label for="item_name">Item Name *</label><br>
+            <input type="text" name="item_name" id="item_name" placeholder="Name of the item" ngDefaultControl [(ngModel)] = item_name
+              class="form-control" formControlName="item_name"
+              [ngClass]="{ 'error' : isInvalid('item_name') }">
+          </div><br>
+          <div>
+            <label for="item_manufacturer">Item Manufacturer</label><br>
+            <input type="text" name="item_manufacturer" id="item_manufacturer" placeholder="The maker of the item" ngDefaultControl [(ngModel)] = item_manufacturer
+              class="form-control" formControlName="item_manufacturer">
+          </div><br>
+          <div>
+            <label for="item_model">Item Model</label><br>
+            <input type="text" name="item_model" id="item_model" placeholder="The model of item" ngDefaultControl [(ngModel)] = item_model
+              class="form-control" formControlName="item_model">
+          </div><br>
+          <div>
+            <label for="item_type">Item Type</label><br>
+            <input type="text" name="item_type" id="item_type" placeholder="The type of item" ngDefaultControl [(ngModel)] = item_type
+              class="form-control" formControlName="item_type">
+          </div><br>
+          <div>
+            <label for="item_image">Item Image</label><br>
+            <input type="text" name="item_image" id="item_image" placeholder="Image for the item" ngDefaultControl [(ngModel)] = item_image
+              class="form-control" formControlName="item_image">
+          </div><br>
+          <div>
+            <label for="serial_no">Serial Number</label><br>
+            <input type="text" name="serial_no" id="serial_no" placeholder="The serial number of item" ngDefaultControl [(ngModel)] = serial_no
+              class="form-control" formControlName="serial_no">
+          </div><br>
+          <div>
+            <label for="purchase_date">Purchase Date</label><br>
+            <input type="text" name="purchase_date" id="purchase_date" placeholder="Date of item when it was purchased" ngDefaultControl [(ngModel)] = purchase_date
+              class="form-control" formControlName="purchase_date">
+          </div><br>
+          <div>
+            <label for="purchase_cost">Purchase Cost</label><br>
+            <input type="text" name="purchase_cost" id="purchase_cost" placeholder="Cost of item when it was purchased" ngDefaultControl [(ngModel)] = purchase_cost
+              class="form-control" formControlName="purchase_cost">
+          </div><br>
+          <div>
+            <label for="estimated_value">Estimated Value</label><br>
+            <input type="text" name="estimated_value" id="estimated_value" placeholder="The estimated value of the item today" ngDefaultControl [(ngModel)] = estimated_value
+              class="form-control" formControlName="estimated_value">
+          </div><br>
+          <div class="form-group">
+            <label for="item_notes">Item Notes</label><br>
+            <textarea name="item_notes" id="item_notes"  rows="3" placeholder="Description of what the item is about" ngDefaultControl [(ngModel)] = item_notes
+              class="form-control" formControlName="item_notes">
+            </textarea>
+          </div><br>
+          <button type="submit"
+            class="btn btn-success">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

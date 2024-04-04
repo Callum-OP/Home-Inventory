@@ -1,0 +1,35 @@
+<div class="navbar navbar-expand-sm bg-success navbar-dark fixed-top">
+  <ul class="navbar-nav" style = "padding-left: 15px;">
+    <li class="nav-item">
+      <img routerLink="/" class="rounded mx-auto d-block" src={{homeImagePath}} alt="thumbnail image of the item" width="40" height="40" style = "margin: auto; cursor: pointer"/>
+    </li>
+    <li class="nav-item">
+      <a routerLink="/" class="nav-link">Home</a>
+    </li>
+    <li *ngIf = "!isTokenExpired()" class="nav-item">
+      <a routerLink="/properties" (click)="resetPage()" class="nav-link">Properties</a>
+    </li>
+    <ng-container *ngIf = "ifPropertySearch()">
+      <input type="search" class="form-control" placeholder="Search for property" #filter>
+      <button (click)="searchPropertyBar(filter.value)" class="btn btn-success">
+        Search
+      </button>
+    </ng-container>
+    <ng-container *ngIf = "ifItemSearch()">
+      <input type="search" class="form-control" placeholder="Search for item" #filter>
+      <button (click)="searchItemBar(filter.value)" class="btn btn-success">
+        Search
+      </button>
+    </ng-container>
+  </ul>
+
+  <div class="form-inline ms-auto"
+    style = "padding-right: 10px">
+
+    <button (click) = "loginLogoutButton()" class="btn btn-outline-light">{{ buttonName }}</button>
+    <div class="btn">
+      <img (click) = "loginLogoutButton()" class="rounded mx-auto d-block" src={{profileImagePath}} alt="thumbnail image of the item" width="40" height="40" style = "cursor: pointer"/>
+    </div>
+
+  </div>
+</div>

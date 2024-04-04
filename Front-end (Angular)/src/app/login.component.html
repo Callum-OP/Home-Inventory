@@ -1,0 +1,27 @@
+<div class="container" style="margin-top: 70px; margin-bottom: 40px;">
+  <div class="row">
+    <div class="col-sm-12" style = "width: 50rem; margin: auto">
+
+      <h3>Login to your account</h3>
+      <form [formGroup] = "loginForm" (ngSubmit)="onSubmit()">
+        <div>
+          <label for="username">Username*</label><br>
+          <input type="text" name="username" id="username" placeholder="A name for your account"
+            class="form-control" formControlName="username"
+            [ngClass]="{ 'error' : isInvalid('username') }">
+        </div><br>
+        <div>
+          <label for="password">Password*</label><br>
+          <input type="text" name="password" id="password" placeholder="A password to protect your account"
+            class="form-control" formControlName="password"
+            [ngClass]="{ 'error' : isInvalid('password') }">
+        </div><br>
+        <button type="submit"
+          class="btn btn-success">Login</button>
+      </form><br>
+
+      <p>Don't have an account? Create one now!</p>
+        <button routerLink="/register" class="btn btn-success">Create Account</button>
+    </div>
+  </div>
+</div>

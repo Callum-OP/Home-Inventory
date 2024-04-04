@@ -1,0 +1,24 @@
+<div class="container" style="margin-top: 70px; margin-bottom: 60px;">
+    <div class="row">
+        <div class="col-sm-12" style = "width: 50rem; margin: auto">
+            <h3> Home Inventory</h3><br>
+
+            <h4> Welcome</h4><br>
+
+            <h5> About the Site </h5>
+
+            <p>Want to create a secure digital home inventory? Then this is the site for you!</p>
+
+            <p>Sign up and you will get access to the ability to create a home inventory which can store information about your items digitally.</p>
+            <p>Own multiple properties? No problem as Home Inventory allows users to add multiple properties to the home inventory list.</p>
+            <p>The advantages of a digital home inventory allow you to search for your items and easily update their details at any time 
+                and that it is accessible from any device with internet access.</p>
+            <br>
+            
+            <ng-container *ngIf = "isTokenExpired()">
+                <p>Login now to start your home inventory!</p>
+                <button class="btn btn-success" [routerLink] = "['/login']">Login</button><br><br>
+            </ng-container>
+        </div>
+    </div>
+</div>
