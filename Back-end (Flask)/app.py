@@ -64,8 +64,7 @@ def login():
         if users.find_one({'username': request.form["username"]}):
             user = users.find_one({'username': request.form["username"]})
             if flask_bcrypt.check_password_hash(str(user["password"]), request.form["password"]):
-                userid = 1
-                #str(user["_id"])
+                userid = str(user["_id"])
                 token = jwt.encode( {
                     'user' : str(user["username"]),
                     'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=30)
@@ -101,12 +100,14 @@ def show_all_properties():
             for item in property["items"]:
                 item["_id"] = str(item["_id"])
             data_to_return.append(property)
-
     return make_response( jsonify( data_to_return ), 200 )
 
 @app.route("/api/v1.0/homeinventory/<string:id>", methods=["GET"])
 @login_required
 def show_one_property(id):
+
+    # Get userid from request parameters
+    userid = request.args.get('userid')
 
     # Validate property id
     if len(id) != 24 or not all(c in string.hexdigits for c in id):
@@ -115,10 +116,13 @@ def show_one_property(id):
     # Find property matching the id in url
     property = properties.find_one( { "_id" : ObjectId(id) } )
     if property is not None:
-        property["_id"] = str(property["_id"])
-        for item in property["items"]:
-            item["_id"] = str(item["_id"])
-        return make_response( jsonify ( [property] ), 200)
+        if userid in property["user_id"]:
+            property["_id"] = str(property["_id"])
+            for item in property["items"]:
+                item["_id"] = str(item["_id"])
+            return make_response( jsonify ( [property] ), 200)
+        else:
+            return make_response( { "error" : "Invalid user ID"}, 404 )
     else:
         return make_response( jsonify( { "error" : "Invalid property ID"} ), 404 )
     
@@ -319,6 +323,9 @@ def delete_item(id, item_id):
 @login_required
 def search_all_properties(property_name):
 
+    # Get userid from request parameters
+    userid = request.args.get('userid')
+
     # Set up pagination for list of properties
     page_num, page_size = 1,10
     if request.args.get("pn"):
@@ -330,11 +337,12 @@ def search_all_properties(property_name):
     # Find all properties matching the given property name in the properties collection
     data_to_return = []
     for property in properties.find( { "property_name" :{'$regex': property_name, '$options': 'i' }} ).skip(page_start).limit(page_size):
-        property["_id"] = str(property["_id"])
-        for item in property["items"]:
-            item["_id"] = str(item["_id"])
-        property["item_count"] = len(property["items"])
-        data_to_return.append(property)
+        if userid in property["user_id"]:
+            property["_id"] = str(property["_id"])
+            for item in property["items"]:
+                item["_id"] = str(item["_id"])
+            property["item_count"] = len(property["items"])
+            data_to_return.append(property)
 
     return make_response( jsonify( data_to_return ), 200 )
 

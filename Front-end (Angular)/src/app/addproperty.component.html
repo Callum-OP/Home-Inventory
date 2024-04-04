@@ -14,7 +14,7 @@
           <label for="user_id">User ID</label><br>
           <input type="text" name="user_id" id="user_id" placeholder="Name of the property"
             class="form-control" formControlName="user_id"
-            [ngClass]="{ 'error' : isInvalid('user_id') }">
+            [ngClass]="{ 'error' : isInvalid('user_id') }" ngDefaultControl [(ngModel)] = userid>
         </div><br>
         <div>
           <label for="thumbnail">Thumbnail</label><br>

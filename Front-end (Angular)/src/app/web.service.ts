@@ -49,15 +49,16 @@ export class WebService {
 
   getProperty(id: any) {
     this.token = this.authService.getToken()
+    this.userid = this.authService.getUser()
     this.propertyid = id;
-    return this.http.get('http://localhost:5000/api/v1.0/homeinventory/' + id + '?token=' + this.token);
+    return this.http.get('http://localhost:5000/api/v1.0/homeinventory/' + id + '?token=' + this.token + '&userid=' + this.userid);
   }
 
   searchProperties(property_name: any, page: number) {
     this.token = this.authService.getToken()
+    this.userid = this.authService.getUser()
     return this.http.get(
-      'http://localhost:5000//api/v1.0/homeinventory/search/' + property_name  + '?token=' + this.token
-    );
+      'http://localhost:5000//api/v1.0/homeinventory/search/' + property_name  + '?token=' + this.token + '&userid=' + this.userid + '&pn=' + page);
   }
 
   postProperty(property: any) {

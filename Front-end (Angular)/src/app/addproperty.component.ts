@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { WebService } from './web.service';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
+import { AuthService } from './authservice.component';
 
 @Component({
   selector: 'addproperty',
@@ -14,18 +15,22 @@ export class AddPropertyComponent {
   property_list: any = [];
   propertyForm: any;
 
-  constructor(private webService: WebService,
+  userid: any;
+
+  constructor(private authService: AuthService, private webService: WebService,
   private route: ActivatedRoute,
   private formBuilder: FormBuilder) {}
 
   // On startup the add property form is set
   ngOnInit() {
-  this.propertyForm = this.formBuilder.group( {
-    property_name: ['', Validators.required],
-    property_notes: [''],
-    thumbnail: [''],
-    user_id: [''],
-  });
+    this.userid = this.authService.getUser();
+
+    this.propertyForm = this.formBuilder.group( {
+      property_name: ['', Validators.required],
+      property_notes: [''],
+      thumbnail: [''],
+      user_id: [''],
+    });
 
   this.property_list = this.webService.getProperty(
   this.route.snapshot.params['id']);
