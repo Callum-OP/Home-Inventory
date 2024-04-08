@@ -44,7 +44,7 @@ export class ItemComponent {
       this.purchase_cost = response.purchase_cost;
       this.estimated_value = response.estimated_value;
       this.item_notes = response.item_notes;
-  } )
+    } )
   }
 
   // Takes the user to the edit item page

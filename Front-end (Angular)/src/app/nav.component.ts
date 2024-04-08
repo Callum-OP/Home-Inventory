@@ -55,7 +55,7 @@ export class NavComponent {
       // If they are logged in then the logout button shows
       // If not the login button shows
       this.token = localStorage.getItem('token');
-      if (this.token != 'null') {
+      if (this.token != 'null' && this.token != null) {
         const expiry = (JSON.parse(atob(this.token.split('.')[1]))).exp;
         return expiry * 1000 < Date.now();
       } else {

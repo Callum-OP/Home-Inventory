@@ -92,8 +92,11 @@ def show_all_properties():
         page_size = int(request.args.get('ps'))
     page_start = (page_size * (page_num - 1))
 
-    # Find all properties in the collection
     data_to_return = []
+    total_value = 0
+    item_count = 0
+
+    # Find all properties in the collection
     for property in properties.find().skip(page_start).limit(page_size):
         if userid in property["user_id"]:
             property["_id"] = str(property["_id"])
