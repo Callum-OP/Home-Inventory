@@ -49,7 +49,7 @@ export class PropertyComponent {
   onDelete(item_id: any) {
     this.webService.deleteItem(this.id, item_id)
     .subscribe( (response: any) => {
-      return window.location.href='http://localhost:4200/properties/' + this.id;
+      return window.location.href='http://localhost:4200/properties/' + this.id + '/items/';
     } )
   }
 }

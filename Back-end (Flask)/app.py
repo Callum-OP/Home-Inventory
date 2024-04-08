@@ -93,15 +93,22 @@ def show_all_properties():
     page_start = (page_size * (page_num - 1))
 
     data_to_return = []
-    total_value = 0
-    item_count = 0
 
     # Find all properties in the collection
     for property in properties.find().skip(page_start).limit(page_size):
+        total_value = 0
+        item_count = 0
         if userid in property["user_id"]:
             property["_id"] = str(property["_id"])
             for item in property["items"]:
                 item["_id"] = str(item["_id"])
+                # Calculate total value of items in property
+                if item["estimated_value"] != '':
+                    total_value = total_value + int(item["estimated_value"])
+                # Calculate total value of all items in property
+                item_count = item_count + 1
+            property["total_value"] = total_value
+            property["item_count"] = item_count
             data_to_return.append(property)
     return make_response( jsonify( data_to_return ), 200 )
 

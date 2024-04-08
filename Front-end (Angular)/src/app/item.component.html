@@ -10,8 +10,8 @@
           <p class = "card-text"> Type: {{ item_type }} </p>
           <p class = "card-text"> Serial Number: {{ serial_no }} </p>
           <p class = "card-text"> Purchase Date: {{ purchase_date }} </p>
-          <p class = "card-text"> Purchase Cost: {{ purchase_cost }} </p>
-          <p class = "card-text"> Estimated Value: {{ estimated_value }} </p><br>
+          <p class = "card-text"> Purchase Cost: £{{ purchase_cost }} </p>
+          <p class = "card-text"> Estimated Value: £{{ estimated_value }} </p><br>
           <button (click) = "onEdit()" style="margin-right: 10px;" class="btn btn-success">Edit</button>
           <button (click) = "onDelete()" class="btn btn-success">Delete</button>
         </div>
