@@ -15,6 +15,7 @@ export class PropertiesComponent {
   property_list: any = [];
   page: number = 1;
   length: any;
+  thumbnail: any;
 
   constructor(public webService: WebService, private route: ActivatedRoute, public authService: AuthService) {}
 

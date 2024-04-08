@@ -140,12 +140,18 @@ def show_one_property(id):
 @login_required
 def add_new_property():
 
+    thumbnail = ''
+
     # Validate the request form data
+    if request.form["thumbnail"] != '':
+        thumbnail = request.form["thumbnail"]
+    else:
+        thumbnail = "/assets/Placeholder.png"
     if "property_name" in request.form:
         new_property = {
         "property_name": request.form["property_name"],
         "property_notes": request.form["property_notes"],
-        "thumbnail": request.form["thumbnail"], 
+        "thumbnail": thumbnail,
         "user_id": request.form["user_id"], 
         "items": [],
         "item_count": 0,
@@ -163,11 +169,17 @@ def add_new_property():
 @login_required
 def edit_property(id):
 
+    thumbnail = ''
+
     # Validate property id
     if len(id) != 24 or not all(c in string.hexdigits for c in id):
         return make_response( jsonify( { "error" : "Invalid property ID"} ), 404 )
 
     # Validate the request form data and update the matching property in the properties collection
+    if request.form["thumbnail"] != '':
+        thumbnail = request.form["thumbnail"]
+    else:
+        thumbnail = "/assets/Placeholder.png"
     if "property_name" in request.form:
         result = properties.update_one(
             { "_id" : ObjectId(id) },
@@ -175,7 +187,7 @@ def edit_property(id):
                 "$set" : {
                     "property_name": request.form["property_name"],
                     "property_notes": request.form["property_notes"],
-                    "thumbnail": request.form["thumbnail"],
+                    "thumbnail": thumbnail,
                 }
             }
         )
@@ -208,11 +220,17 @@ def delete_property(id):
 @login_required
 def add_new_item(id):
 
+    image = ''
+
     # Validate property id
     if len(id) != 24 or not all(c in string.hexdigits for c in id):
         return make_response( jsonify( { "error" : "Invalid item ID"} ), 404 )
 
     # Validate the request form data and put it in the new item
+    if request.form["item_img"] != '':
+        image = request.form["item_img"]
+    else:
+        image = "/assets/Placeholder.png"
     if "item_name" in request.form and "item_type" in request.form:
         new_item = {
             "_id" : ObjectId(),
@@ -220,7 +238,7 @@ def add_new_item(id):
                     "item_manufacturer": request.form["item_manufacturer"],
                     "item_model": request.form["item_model"],
                     "item_type": request.form["item_type"],
-                    "item_img": request.form["item_img"],
+                    "item_img": image,
                     "serial_no": request.form["serial_no"],
                     "purchase_date": request.form["purchase_date"],
                     "purchase_cost": request.form["purchase_cost"],
@@ -280,6 +298,8 @@ def show_one_item(id, item_id):
 @app.route("/api/v1.0/homeinventory/<string:id>/items/<string:item_id>", methods=["PUT"])
 def edit_item(id, item_id):
 
+    image = ''
+
     # Validate property and item ids
     if len(id) != 24 or not all(c in string.hexdigits for c in id):
         return make_response( jsonify( { "error" : "Invalid property ID"} ), 404 )
@@ -287,13 +307,17 @@ def edit_item(id, item_id):
         return make_response( jsonify( { "error" : "Invalid item ID"} ), 404 )
 
     # Validate the request form data and update the matching items in the property items
+    if request.form["item_img"] != '':
+        image = request.form["item_img"]
+    else:
+        image = "/assets/Placeholder.png"
     if "item_name" in request.form:
         edited_item = {
             "items.$.item_name": request.form["item_name"],
             "items.$.item_manufacturer": request.form["item_manufacturer"],
             "items.$.item_model": request.form["item_model"],
             "items.$.item_type": request.form["item_type"],
-            "items.$.item_img": request.form["item_img"],
+            "items.$.item_img": image,
             "items.$.serial_no": request.form["serial_no"],
             "items.$.purchase_date": request.form["purchase_date"],
             "items.$.purchase_cost": request.form["purchase_cost"],
