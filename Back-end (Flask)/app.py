@@ -55,6 +55,43 @@ def register():
     else:
         return make_response( jsonify( { "error" : "Missing Form Data"} ), 404 )
 
+@app.route("/api/v1.0/homeinventory/updateuser", methods=["PUT"])
+@login_required
+def update_user():
+    # Get userid from request parameters
+    id = request.args.get('userid')
+
+    # Validate the request form data
+    if "old_username" in request.form and "old_password" in request.form and "new_username" in request.form and "new_password" in request.form:
+
+        hashed_password = flask_bcrypt.generate_password_hash(request.form["new_password"]).decode('utf-8')
+
+        # Check if old username and password is correct
+        if users.find_one({'username': request.form["old_username"]}):
+            user = users.find_one({'username': request.form["old_username"]})
+            if flask_bcrypt.check_password_hash(str(user["password"]), request.form["old_password"]):
+                # Check if the new username already exists
+                if "old_username" in request.form == "new_username" in request.form:
+                    if users.find_one({'username': request.form["new_username"]}):
+                        return make_response( jsonify( { "error" : "Username already exists"} ), 403 )
+                else:
+                    # Update user in the users collection
+                    new_user_id = users.update_one(
+                    { "_id" : ObjectId(id) },
+                    {
+                        "$set" : {
+                            "username": request.form["new_username"],
+                            "password": hashed_password
+                        }
+                    })
+                    return make_response( jsonify( { "success" : "Account creation successful"} ), 201 )
+            else:  
+                return make_response( jsonify( { "error" : "Invalid username or password"} ), 404 ) 
+        else:  
+            return make_response( jsonify( { "error" : "Invalid username or password"} ), 404 )                
+    else:
+        return make_response( jsonify( { "error" : "Missing Form Data"} ), 404 )
+
 @app.route("/api/v1.0/homeinventory/login", methods=["POST"])
 def login():
 

@@ -39,6 +39,18 @@ export class WebService {
     return this.http.post('http://localhost:5000/api/v1.0/homeinventory/register', postData);
   }
 
+  updateUser(user: any) {
+    this.token = this.authService.getToken()
+    this.userid = this.authService.getUser()
+    let postData = new FormData();
+    postData.append("old_username", user.old_username);
+    postData.append("old_password", user.old_password);
+    postData.append("new_username", user.new_username);
+    postData.append("new_password", user.new_password);
+
+    return this.http.put('http://localhost:5000/api/v1.0/homeinventory/updateuser' + '?token=' + this.token + '&userid=' + this.userid, postData);
+  }
+
   getProperties(page: number) {
     this.token = this.authService.getToken()
     this.userid = this.authService.getUser()

@@ -71,12 +71,24 @@ export class NavComponent {
     }
   }
 
+  editLoginButton() {
+    if (this.isLoggedIn == false) {
+      this.login();
+    } else {
+      this.editLogin();
+    }
+  }
+
   login() {
     return window.location.href='http://localhost:4200/login';
   }
 
   logout() {
     this.authService.logout()
+  }
+
+  editLogin() {
+    return window.location.href='http://localhost:4200/login/edit';
   }
 
   ifPropertySearch() {

@@ -10,6 +10,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { HomeComponent } from './home.component';
 import { RegisterComponent } from './register.component';
+import { EditLoginComponent } from './editlogin.component';
 import { LoginComponent } from './login.component';
 import { PropertiesComponent } from './properties.component';
 import { PropertyComponent } from './property.component';
@@ -31,6 +32,10 @@ var routes: any = [
   {
     path: 'register',
     component: RegisterComponent
+  },
+  {
+    path: 'login/edit',
+    component: EditLoginComponent
   },
   {
     path: 'login',
@@ -76,7 +81,7 @@ var routes: any = [
 
 @NgModule({
   declarations: [
-    AppComponent, HomeComponent, RegisterComponent, LoginComponent, PropertiesComponent, PropertyComponent, AddPropertyComponent, 
+    AppComponent, HomeComponent, RegisterComponent, EditLoginComponent, LoginComponent, PropertiesComponent, PropertyComponent, AddPropertyComponent, 
     EditPropertyComponent, ItemComponent, NavComponent, SearchPropertyComponent, AddItemComponent, EditItemComponent, SearchItemComponent
   ],
   imports: [

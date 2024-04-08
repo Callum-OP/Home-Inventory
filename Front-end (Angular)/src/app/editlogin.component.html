@@ -1,0 +1,36 @@
+<div class="container" style=" margin-top: 80px; margin-bottom: 40px;">
+  <div class="row">
+    <div class="col-sm-12" style = "width: 30rem; margin: auto">
+
+      <h3>Change your existing account</h3>
+      <form [formGroup] = "editLoginForm" (ngSubmit)="onSubmit()">
+        <div>
+          <label for="old_username">Old Username*</label><br>
+          <input type="text" name="old_username" id="old_username" placeholder="A name for your account"
+            class="form-control" formControlName="old_username"
+            [ngClass]="{ 'error' : isInvalid('old_username') }">
+        </div><br>
+        <div>
+          <label for="old_password">Old Password*</label><br>
+          <input type="text" name="old_password" id="old_password" placeholder="A password to protect your account"
+            class="form-control" formControlName="old_password"
+            [ngClass]="{ 'error' : isInvalid('old_password') }">
+        </div><br>
+        <div>
+          <label for="new_username">New Username*</label><br>
+          <input type="text" name="new_username" id="new_username" placeholder="A name for your account"
+            class="form-control" formControlName="new_username"
+            [ngClass]="{ 'error' : isInvalid('new_username') }">
+        </div><br>
+        <div>
+          <label for="new_password">New Password*</label><br>
+          <input type="text" name="new_password" id="new_password" placeholder="A password to protect your account"
+            class="form-control" formControlName="new_password"
+            [ngClass]="{ 'error' : isInvalid('new_password') }">
+        </div><br>
+        <button type="submit"
+          class="btn btn-success">Change Account</button>
+      </form>
+    </div>
+  </div>
+</div>
