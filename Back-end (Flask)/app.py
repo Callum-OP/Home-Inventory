@@ -8,6 +8,7 @@ import bcrypt
 import flask_bcrypt
 from flask_cors import CORS
 import string
+import pandas as pd
 
 app = Flask(__name__)
 CORS(app)
@@ -114,6 +115,35 @@ def login():
     else:
         return make_response( jsonify( { "error" : "Missing Form Data"} ), 404 )
 
+@app.route("/api/v1.0/homeinventory", methods=["POST"])
+@login_required
+def add_new_property():
+
+    thumbnail = ''
+
+    # Validate the request form data
+    if request.form["thumbnail"] != '':
+        thumbnail = request.form["thumbnail"]
+    else:
+        thumbnail = "/assets/Placeholder.png"
+    if "property_name" in request.form:
+        new_property = {
+        "property_name": request.form["property_name"],
+        "property_notes": request.form["property_notes"],
+        "thumbnail": thumbnail,
+        "user_id": request.form["user_id"], 
+        "items": [],
+        "item_count": 0,
+        "total_value": 0
+        }
+        # Add new property to the home inventory
+        new_property_id = properties.insert_one(new_property)
+        new_property_link = "http://localhost:5000/api/v1.0/homeinventory/" + \
+            str(new_property_id.inserted_id)
+        return make_response( jsonify( { "url" : new_property_link} ), 201 )
+    else:
+        return make_response( jsonify( { "error" : "Missing Form Data"} ), 404 )
+
 @app.route("/api/v1.0/homeinventory", methods=["GET"])
 @login_required
 def show_all_properties():
@@ -172,35 +202,6 @@ def show_one_property(id):
             return make_response( { "error" : "Invalid user ID"}, 404 )
     else:
         return make_response( jsonify( { "error" : "Invalid property ID"} ), 404 )
-    
-@app.route("/api/v1.0/homeinventory", methods=["POST"])
-@login_required
-def add_new_property():
-
-    thumbnail = ''
-
-    # Validate the request form data
-    if request.form["thumbnail"] != '':
-        thumbnail = request.form["thumbnail"]
-    else:
-        thumbnail = "/assets/Placeholder.png"
-    if "property_name" in request.form:
-        new_property = {
-        "property_name": request.form["property_name"],
-        "property_notes": request.form["property_notes"],
-        "thumbnail": thumbnail,
-        "user_id": request.form["user_id"], 
-        "items": [],
-        "item_count": 0,
-        "total_value": 0
-        }
-        # Add new property to the home inventory
-        new_property_id = properties.insert_one(new_property)
-        new_property_link = "http://localhost:5000/api/v1.0/homeinventory/" + \
-            str(new_property_id.inserted_id)
-        return make_response( jsonify( { "url" : new_property_link} ), 201 )
-    else:
-        return make_response( jsonify( { "error" : "Missing Form Data"} ), 404 )
     
 @app.route("/api/v1.0/homeinventory/<string:id>", methods=["PUT"])
 @login_required
@@ -294,6 +295,41 @@ def add_new_item(id):
         return make_response( jsonify( { "url" : new_item_link} ), 201)
     else:
         return make_response( jsonify( { "error" : "Missing Form Data"} ), 404 )
+
+@app.route("/api/v1.0/homeinventory/<string:id>/duplicate/<string:item_id>", methods=["GET"])
+@login_required
+def duplicate_item(id, item_id):
+
+    # Find matching item in the property collection
+    property = properties.find_one(
+        { "items._id" : ObjectId(item_id) },
+        { "_id" : 0, "items.$" : 1}
+    )
+
+    new_item = {
+        "_id" : ObjectId(),
+                "item_name": str(property["items"][0]["item_name"]),
+                "item_manufacturer": str(property["items"][0]["item_manufacturer"]),
+                "item_model": str(property["items"][0]["item_model"]),
+                "item_type": str(property["items"][0]["item_type"]),
+                "item_img": str(property["items"][0]["item_img"]),
+                "serial_no": str(property["items"][0]["serial_no"]),
+                "purchase_date": str(property["items"][0]["purchase_date"]),
+                "purchase_cost": str(property["items"][0]["purchase_cost"]),
+                "estimated_value": str(property["items"][0]["estimated_value"]),
+                "item_notes": str(property["items"][0]["item_notes"]),
+    }
+
+    # Update property by adding the new item
+    properties.update_one(
+        { "_id" : ObjectId(id) },
+        { 
+            "$push" : { "items" : new_item },
+        }
+    )
+    new_item_link = "http://localhost:5000/api/v1.0/homeInventory/" + id + \
+            "/items/" + str(new_item["_id"])
+    return make_response( jsonify( { "url" : new_item_link} ), 201)
 
 @app.route("/api/v1.0/homeinventory/<string:id>/items", methods=["GET"])
 @login_required
@@ -432,6 +468,36 @@ def search_items(id, item_name):
             data_to_return.append(item)
 
     return make_response( jsonify( data_to_return ), 200 )
+
+@app.route("/api/v1.0/homeinventory/export", methods=["GET"])
+@login_required
+def export_properties():
+
+    # Get userid from request parameters
+    userid = request.args.get('userid')
+
+    data_to_return = []
+
+    for property in properties.find():
+        total_value = 0
+        item_count = 0
+        if userid in property["user_id"]:
+            property["_id"] = str(property["_id"])
+            for item in property["items"]:
+                item["_id"] = str(item["_id"])
+                # Calculate total value of items in property
+                if item["estimated_value"] != '':
+                    total_value = total_value + int(item["estimated_value"])
+                # Calculate total value of all items in property
+                item_count = item_count + 1
+            property["total_value"] = total_value
+            property["item_count"] = item_count
+            data_to_return.append(property)
+
+    df = pd.DataFrame(list(data_to_return))
+    df.to_csv('HomeInventory.csv')
+
+    return make_response( jsonify( { "success" : "Exported HomeInventory.csv"} ), 200 )
 
 if __name__ == "__main__":
     app.run(debug = True)

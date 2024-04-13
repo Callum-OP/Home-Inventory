@@ -40,6 +40,13 @@ export class PropertyComponent {
     localStorage.setItem("propertyid", this.id);
   }
 
+  onDuplicate(item_id: any) {
+    this.webService.duplicateItem(this.id, item_id) 
+    .subscribe( (response: any) => {
+      return window.location.href='http://localhost:4200/properties/' + this.id + '/items/';
+    })
+  }
+
    // Takes the user to the edit item page
   onEdit(item_id: any) {
     return window.location.href='http://localhost:4200/properties/' + this.id + '/items/' + item_id + '/edit';

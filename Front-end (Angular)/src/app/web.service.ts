@@ -141,6 +141,13 @@ export class WebService {
                             propertyid + '/items' + '?token=' + this.token, postData);
   }
 
+  duplicateItem(id: any, item_id: any) {
+    this.token = this.authService.getToken();
+
+    return this.http.get('http://localhost:5000/api/v1.0/homeinventory/' + 
+    id + '/duplicate/' + item_id + '?token=' + this.token);
+  }
+
   editItem(item: any, id: any, item_id: any) {
     this.token = this.authService.getToken()
     let postData = new FormData();
@@ -163,6 +170,14 @@ export class WebService {
     this.token = this.authService.getToken()
     return this.http.delete('http://localhost:5000/api/v1.0/homeinventory/' + 
     id + '/items/' + item_id + '?token=' + this.token);
+  }
+
+  exportProperties() {
+    this.token = this.authService.getToken()
+    this.userid = this.authService.getUser()
+    return this.http.get(
+      'http://localhost:5000/api/v1.0/homeinventory/export' + '?token=' + this.token + '&userid=' + this.userid
+    );
   }
 
 }

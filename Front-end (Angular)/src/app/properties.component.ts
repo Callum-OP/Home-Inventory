@@ -40,6 +40,13 @@ export class PropertiesComponent {
     } )
   }
 
+  exportProperty() {
+    this.webService.exportProperties()
+    .subscribe( (response: any) => {
+      console.log(response);
+    } )
+  }
+
   // Goes back a number of pages when the previous page button is pressed
   previousPage(number: any) {
     if (this.page > number) {

@@ -58,7 +58,7 @@ export class ItemComponent {
     let item_id = this.route.snapshot.params['item_id'];
     this.webService.deleteItem(id, item_id)
     .subscribe( (response: any) => {
-      return window.location.href='http://localhost:4200/properties/' + this.id;
+      return window.location.href='http://localhost:4200/properties/' + this.id + '/items/';
     } )
   }
 }

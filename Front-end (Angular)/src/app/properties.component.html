@@ -6,6 +6,10 @@
       <p>Have multiple properties and can't find the one your looking for? Use the search bar within the navigation to help locate it.</p>
       <button class="btn btn-success" onclick = "window.location.href='http://localhost:4200/newproperty';">
         Add New Property
+        </button>
+        
+      <button class="btn btn-success" (click) = "exportProperty()" style="margin-left: 10px;">
+        Export to Excel
         </button><br><br>
 
       <div *ngFor = "let property of property_list | async">
