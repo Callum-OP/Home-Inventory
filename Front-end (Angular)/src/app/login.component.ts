@@ -46,6 +46,6 @@ export class LoginComponent {
     return this.loginForm.controls.username.pristine || this.loginForm.controls.password.pristine;
   }
   isIncomplete(){
-    return this.isInvalid('username') || this.isInvalid('pasword') || this.isUnTouched();
+    return this.isInvalid('username') || this.isInvalid('password') || this.isUnTouched();
   }
 }

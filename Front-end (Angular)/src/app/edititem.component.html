@@ -5,7 +5,7 @@
         <h3>Edit a item</h3>
         <form [formGroup] = "itemForm" (ngSubmit)="onSubmit()">
           <div>
-            <label for="item_name">Item Name *</label><br>
+            <label for="item_name">Item Name*</label><br>
             <input type="text" name="item_name" id="item_name" placeholder="Name of the item" ngDefaultControl [(ngModel)] = item_name
               class="form-control" formControlName="item_name"
               [ngClass]="{ 'error' : isInvalid('item_name') }">
@@ -37,17 +37,17 @@
           </div><br>
           <div>
             <label for="purchase_date">Purchase Date</label><br>
-            <input type="text" name="purchase_date" id="purchase_date" placeholder="Date of item when it was purchased" ngDefaultControl [(ngModel)] = purchase_date
+            <input type="date" name="purchase_date" id="purchase_date" placeholder="Date of item when it was purchased" ngDefaultControl [(ngModel)] = purchase_date
               class="form-control" formControlName="purchase_date">
           </div><br>
           <div>
             <label for="purchase_cost">Purchase Cost</label><br>
-            <input type="text" name="purchase_cost" id="purchase_cost" placeholder="Cost of item when it was purchased" ngDefaultControl [(ngModel)] = purchase_cost
+            <input type="number" name="purchase_cost" id="purchase_cost" placeholder="Cost of item when it was purchased" ngDefaultControl [(ngModel)] = purchase_cost
               class="form-control" formControlName="purchase_cost">
           </div><br>
           <div>
             <label for="estimated_value">Estimated Value</label><br>
-            <input type="text" name="estimated_value" id="estimated_value" placeholder="The estimated value of the item today" ngDefaultControl [(ngModel)] = estimated_value
+            <input type="number" name="estimated_value" id="estimated_value" placeholder="The estimated value of the item today" ngDefaultControl [(ngModel)] = estimated_value
               class="form-control" formControlName="estimated_value">
           </div><br>
           <div class="form-group">
@@ -56,7 +56,10 @@
               class="form-control" formControlName="item_notes">
             </textarea>
           </div><br>
-          <button type="submit"
+          <span *ngIf="isIncomplete()">
+            The item must have a name
+          </span>
+          <button *ngIf="!isIncomplete()" type="submit"
             class="btn btn-success">Submit</button>
         </form>
       </div>

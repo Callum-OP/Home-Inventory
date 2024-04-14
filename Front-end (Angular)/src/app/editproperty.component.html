@@ -5,10 +5,15 @@
         <h3>Edit {{property.property_name}}</h3>
         <form [formGroup] = "propertyForm" (ngSubmit)="onSubmit()">
           <div>
-            <label for="property_name">Property Name</label><br>
+            <label for="property_name">Property Name*</label><br>
             <input type="text" name="property_name" id="property_name" placeholder="Name of the property" ngDefaultControl [(ngModel)] = property.property_name
               class="form-control" formControlName="property_name"
               [ngClass]="{ 'error' : isInvalid('property_name') }">
+          </div><br>
+          <div class="form-group">
+            <label for="thumbnail">Thumbnail</label><br>
+            <input type="text" name="thumbnail" id="thumbnail" placeholder="Thumbnail image for property"
+              class="form-control" formControlName="thumbnail">
           </div><br>
           <div class="form-group">
             <label for="property_notes">Property Notes</label><br>
@@ -16,15 +21,10 @@
               class="form-control" formControlName="property_notes">
             </textarea>
           </div><br>
-          <div class="form-group">
-            <label for="thumbnail">Image (Optional)</label><br>
-            <input type="text" name="thumbnail" id="thumbnail"
-              class="form-control" formControlName="thumbnail" placeholder="Optional url of the cover of the property" ngDefaultControl [(ngModel)] = property.thumbnail> 
-          </div>
           <span *ngIf="isIncomplete()">
-            You must complete title and publish date fields
-          </span><br>
-          <button type="submit" *ngIf="!isIncomplete()"
+            The property must have a name
+          </span>
+          <button *ngIf="!isIncomplete()" type="submit"
             class="btn btn-success">Submit</button>
         </form>
       </div>

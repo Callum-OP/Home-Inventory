@@ -5,17 +5,14 @@
       <h3>Add a new property</h3>
       <form [formGroup] = "propertyForm" (ngSubmit)="onSubmit()">
         <div>
-          <label for="property_name">Property Name</label><br>
+          <label for="property_name">Property Name*</label><br>
           <input type="text" name="property_name" id="property_name" placeholder="Name of the property"
             class="form-control" formControlName="property_name"
             [ngClass]="{ 'error' : isInvalid('property_name') }">
         </div><br>
-        <div>
-          <label for="user_id">User ID</label><br>
-          <input type="text" name="user_id" id="user_id" placeholder="Name of the property"
+          <input type="hidden" name="user_id" id="user_id" placeholder="Name of the property"
             class="form-control" formControlName="user_id"
             [ngClass]="{ 'error' : isInvalid('user_id') }" ngDefaultControl [(ngModel)] = userid>
-        </div><br>
         <div>
           <label for="thumbnail">Thumbnail</label><br>
           <input type="text" name="thumbnail" id="thumbnail" placeholder="Thumbnail image for property"
@@ -27,7 +24,10 @@
             class="form-control" formControlName="property_notes">
           </textarea>
         </div><br>
-        <button type="submit"
+        <span *ngIf="isIncomplete()">
+          The property must have a name
+        </span>
+        <button *ngIf="!isIncomplete()" type="submit"
           class="btn btn-success">Submit</button>
       </form>
     </div>
