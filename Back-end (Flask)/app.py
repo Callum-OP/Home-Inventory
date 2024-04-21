@@ -448,7 +448,6 @@ def search_all_properties(property_name):
             property["_id"] = str(property["_id"])
             for item in property["items"]:
                 item["_id"] = str(item["_id"])
-            property["item_count"] = len(property["items"])
             data_to_return.append(property)
 
     return make_response( jsonify( data_to_return ), 200 )

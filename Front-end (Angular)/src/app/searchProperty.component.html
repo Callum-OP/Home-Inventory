@@ -10,7 +10,7 @@
       <div *ngFor = "let property of property_list | async">
         <div class="card border-success border-2 bg-basic mb-3 flex-row flex-wrap" style = "width: 47rem; margin: auto; cursor: pointer" [routerLink] = "['/properties', property._id, 'items']">
           <div class="card-header">
-            <img class="rounded mx-auto d-block" src="assets/ExampleHouse.png" alt="thumbnail image of property" width="150" height="150"/>
+            <img class="rounded mx-auto d-block" src="{{ property.thumbnail }}" alt="thumbnail image of property" width="150" height="150"/>
           </div>
           <div class="card-block" style= "padding: 10px;">
             <h5 class= "card-title"> {{ property.property_name }} </h5>
