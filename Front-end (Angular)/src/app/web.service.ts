@@ -51,11 +51,11 @@ export class WebService {
     return this.http.put('http://localhost:5000/api/v1.0/homeinventory/updateuser' + '?token=' + this.token + '&userid=' + this.userid, postData);
   }
 
-  getProperties(page: number) {
+  getProperties() {
     this.token = this.authService.getToken()
     this.userid = this.authService.getUser()
     return this.http.get(
-      'http://localhost:5000/api/v1.0/homeinventory' + '?token=' + this.token + '&userid=' + this.userid + '&pn=' + page
+      'http://localhost:5000/api/v1.0/homeinventory' + '?token=' + this.token + '&userid=' + this.userid
     );
   }
 
@@ -66,11 +66,11 @@ export class WebService {
     return this.http.get('http://localhost:5000/api/v1.0/homeinventory/' + id + '?token=' + this.token + '&userid=' + this.userid);
   }
 
-  searchProperties(property_name: any, page: number) {
+  searchProperties(property_name: any) {
     this.token = this.authService.getToken()
     this.userid = this.authService.getUser()
     return this.http.get(
-      'http://localhost:5000//api/v1.0/homeinventory/search/' + property_name  + '?token=' + this.token + '&userid=' + this.userid + '&pn=' + page);
+      'http://localhost:5000//api/v1.0/homeinventory/search/' + property_name  + '?token=' + this.token + '&userid=' + this.userid);
   }
 
   postProperty(property: any) {

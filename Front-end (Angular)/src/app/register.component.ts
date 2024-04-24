@@ -31,7 +31,7 @@ export class RegisterComponent {
     this.webService.register(this.registerForm.value)
     .subscribe( (response: any) => {
       console.log(response);
-      this.registerForm.reset();
+      return window.location.href='http://localhost:4200/login';
     })
   }
 
@@ -43,6 +43,6 @@ export class RegisterComponent {
     return this.registerForm.controls.username.pristine || this.registerForm.controls.password.pristine;
   }
   isIncomplete(){
-    return this.isInvalid('username') || this.isInvalid('pasword') || this.isUnTouched();
+    return this.isInvalid('username') || this.isInvalid('password') || this.isUnTouched();
   }
 }
