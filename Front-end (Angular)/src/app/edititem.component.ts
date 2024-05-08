@@ -76,6 +76,6 @@ export class EditItemComponent {
     return this.itemForm.controls[control].invalid;
   }
   isIncomplete(){
-    return this.isInvalid('item_name') || this.isInvalid('item_type');
+    return this.isInvalid('item_name');
   }
 }

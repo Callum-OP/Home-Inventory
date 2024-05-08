@@ -45,6 +45,6 @@ export class EditLoginComponent {
     return this.editLoginForm.controls.old_username.pristine || this.editLoginForm.controls.old_password.pristine || this.editLoginForm.controls.new_username.pristine || this.editLoginForm.controls.new_password.pristine;
   }
   isIncomplete(){
-    return this.isInvalid('old_username') || this.isInvalid('old_pasword') || this.isInvalid('new_username') || this.isInvalid('new_pasword') ||this.isUnTouched();
+    return this.isInvalid('old_username') || this.isInvalid('old_password') || this.isInvalid('new_username') || this.isInvalid('new_password') ||this.isUnTouched();
   }
 }
